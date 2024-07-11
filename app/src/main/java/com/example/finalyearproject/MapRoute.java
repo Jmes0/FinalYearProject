@@ -12,7 +12,7 @@ import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 
-public class MapRoute {
+public class MapRoute extends MainActivity{
     private final MapView map;
     private final Context ctx;
     private static final String USER_AGENT = "JamesOliver";

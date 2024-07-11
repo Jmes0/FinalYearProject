@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
 
+    private String Username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +35,12 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
 
-        getSupportFragmentManager().setFragmentResultListener("requestKey", this,
+        getSupportFragmentManager().setFragmentResultListener("loginDetails", this,
                 new FragmentResultListener() {
                     @Override
                     public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                         boolean loginResult = result.getBoolean("loginResult");
+                        String Username = result.getString("Username");
                         if(loginResult) {
                             replaceFragment(new MapFragment());
                         }
@@ -47,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
     }
+
 
     public void replaceFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

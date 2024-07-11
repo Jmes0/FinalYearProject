@@ -51,8 +51,8 @@ public class MapFragment extends Fragment {
         map = (MapView) view.findViewById(R.id.map);
         startMap(map);
 
-        //MapRoute mapRoute = new MapRoute(map, ctx);
-        //mapRoute.addRoute(51.4489, -0.9502);
+        MapRoute mapRoute = new MapRoute(map, ctx);
+        mapRoute.addRoute(51.4489, -0.9502);
 
         //updateMap(52.0406, -0.7594);
         addMarker(51.4551,-0.9787, "Test Marker");

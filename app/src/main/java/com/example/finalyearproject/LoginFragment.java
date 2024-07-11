@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,8 @@ public class LoginFragment extends Fragment {
         // Initialize views
 
         Button button = view.findViewById(R.id.LoginBtn);
+        EditText username = view.findViewById(R.id.Username);
+        EditText password = view.findViewById(R.id.Password);
 
         // Set up button click listener
         button.setOnClickListener(new View.OnClickListener() {
@@ -33,19 +36,30 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 // Handle button click
                 System.out.println("Hello");
-                if(checkLogin()) {
+                if(checkLogin(username, password)) {
                     loginAccepted = true;
                     Bundle loginResult = new Bundle();
                     loginResult.putBoolean("loginResult",loginAccepted);
-                    getParentFragmentManager().setFragmentResult("requestKey", loginResult);
+                    loginResult.putString("Username",username.getText().toString());
+                    getParentFragmentManager().setFragmentResult("loginDetails", loginResult);
                 }
             }
         });
         return view;
     }
 
-    public boolean checkLogin() {
-        return true;
+    public boolean checkLogin(EditText username, EditText password) {
+        String uName = username.getText().toString();
+        String pWord = password.getText().toString();
+
+        ProfileData pData = new ProfileData();
+
+        if(pData.getPassword(uName).equals(pWord)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 

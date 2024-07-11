@@ -3,7 +3,20 @@
   <component name="deploymentTargetDropDown">
     <value>
       <entry key="app">
-        <State />
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\joliv\.android\avd\Pixel_4_API_34.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-07-06T12:47:48.338929400Z" />
+        </State>
       </entry>
     </value>
   </component>
