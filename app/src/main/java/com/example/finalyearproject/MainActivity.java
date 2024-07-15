@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         boolean loginResult = result.getBoolean("loginResult");
                         String Username = result.getString("Username");
                         if(loginResult) {
-                            replaceFragment(new MapFragment());
+                            replaceFragment(new MapFragment(), "MapFragment");
                         }
                     }
                 });
@@ -60,44 +60,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                         boolean MenuSelect = result.getBoolean("MenuSelect");
                         if(MenuSelect) {
-                            addFragment(new MenuFragment());
-                        }
-                    }
-                });
-
-        getSupportFragmentManager().setFragmentResultListener("MapReturn", this,
-                new FragmentResultListener() {
-                    @Override
-                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                        boolean MenuSelect = result.getBoolean("MenuSelect");
-                        if(MenuSelect) {
-                            showFragment(new MenuFragment(), getSupportFragmentManager().findFragmentByTag("MapFragment"));
+                            addFragment(new MenuFragment(), "MenuFragment");
                         }
                     }
                 });
     }
 
 
-    public void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment, String fragmentTag) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container_view, fragment);
+        transaction.replace(R.id.fragment_container_view, fragment, fragmentTag);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
     //This could be abbreviated at a later date into one method
-    public void addFragment(Fragment fragment) {
+    public void addFragment(Fragment fragment, String fragmentTag) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container_view, fragment);
+        transaction.add(R.id.fragment_container_view, fragment, fragmentTag);
         transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-    public void showFragment(Fragment fragment1, Fragment fragment2) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container_view, fragment1);
-        transaction.addToBackStack(null);
-        transaction.hide(fragment2);
         transaction.commit();
     }
 

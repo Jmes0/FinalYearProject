@@ -24,6 +24,7 @@ public class MenuFragment extends Fragment {
         // Initialize views
 
         Button MapBtn = view.findViewById(R.id.MapBtn);
+        Button LogoutBtn = view.findViewById(R.id.LogoutBtn);
 
 
         // Set up button click listener

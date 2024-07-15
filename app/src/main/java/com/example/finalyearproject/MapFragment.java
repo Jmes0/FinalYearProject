@@ -1,5 +1,7 @@
 package com.example.finalyearproject;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,11 +10,21 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
@@ -28,6 +40,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             getChildFragmentManager().beginTransaction().replace(R.id.googleMap, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);
+
 
         Button Menu = view.findViewById(R.id.MenuBtn);
         Button Marker = view.findViewById(R.id.MarkerBtn);
@@ -50,5 +63,47 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
+        CrimeData data = new CrimeData();
+        for (int i = 1; i < 10; i++) {
+            crimeMarker(googleMap, i);
+        }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.4551,-0.9787),13));
+
+        MapRoute route = new MapRoute();
+        ArrayList<Double> lineCoordinates = route.addRoute();
+        Polyline pl = googleMap.addPolyline(new PolylineOptions()
+                .clickable(true)
+                .add(
+                        new LatLng(51.4551, -0.9787),
+                        new LatLng(lineCoordinates.get(0), lineCoordinates.get(1))));
     }
+
+
+    public void crimeMarker(@NonNull GoogleMap googleMap, int lineNum) {
+        Scanner crimeDataIs = new Scanner(getResources().openRawResource(R.raw.thames_valley_street));
+        String CDdata = "";
+
+        CrimeData data = new CrimeData();
+
+        crimeDataIs.nextLine();
+        int count = 0;
+        while (count != lineNum) {
+            CDdata = crimeDataIs.nextLine();
+            count++;
+        }
+        //CDdata = input.nextLine();
+        double llong = CrimeData.returnCoordinates(CDdata, "Longitude");
+        double latt = CrimeData.returnCoordinates(CDdata, "Latitude");
+        String crime = CrimeData.returnCrime(CDdata);
+
+        LatLng markerCoordinates = new LatLng(latt, llong);
+        googleMap.addMarker(new MarkerOptions()
+                .position(markerCoordinates)
+                .title(crime));
+    }
+
+
+
+
 }
+
