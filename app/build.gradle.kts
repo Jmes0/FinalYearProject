@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
 }
 
 android {
@@ -29,6 +30,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -43,9 +47,11 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    implementation ("org.osmdroid:osmdroid-android:6.1.8")
+    implementation ("org.osmdroid:osmdroid-android:6.1.13")
     implementation ("com.opencsv:opencsv:4.6")
     implementation(files("libs/osmbonuspack_6.9.0.aar"))
+    implementation ("com.google.android.gms:play-services-maps:19.0.0")
+    implementation ("com.google.android.gms:play-services-location:21.3.0")
 
 }
 

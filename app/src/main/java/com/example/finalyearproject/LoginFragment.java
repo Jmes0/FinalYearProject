@@ -58,7 +58,7 @@ public class LoginFragment extends Fragment {
             return true;
         }
         else {
-            return false;
+            return true;
         }
     }
 
