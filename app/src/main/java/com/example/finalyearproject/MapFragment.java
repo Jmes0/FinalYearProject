@@ -22,7 +22,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -69,13 +71,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.4551,-0.9787),13));
 
-        MapRoute route = new MapRoute();
-        ArrayList<Double> lineCoordinates = route.addRoute();
-        Polyline pl = googleMap.addPolyline(new PolylineOptions()
-                .clickable(true)
-                .add(
-                        new LatLng(51.4551, -0.9787),
-                        new LatLng(lineCoordinates.get(0), lineCoordinates.get(1))));
+        //MapRoute route = new MapRoute();
+
+        //ArrayList<Double> lineCoordinates = null;
+        //try {
+            //lineCoordinates = route.addRoute("MiltonKeynes", "ReadingUniversity");
+        //} catch (IOException e) {
+        //    throw new RuntimeException(e);
+        //}
+
+        //Polyline pl = googleMap.addPolyline(new PolylineOptions()
+        //        .clickable(true)
+        //        .add(
+        //                new LatLng(51.4551, -0.9787),
+        //                new LatLng(lineCoordinates.get(0), lineCoordinates.get(1))));
     }
 
 

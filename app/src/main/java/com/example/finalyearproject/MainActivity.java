@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                         boolean MenuSelect = result.getBoolean("MenuSelect");
                         if(MenuSelect) {
-                            addFragment(new MenuFragment(), "MenuFragment");
+                            replaceFragment(new MenuFragment(), "MenuFragment");
                         }
                     }
                 });
