@@ -22,6 +22,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.MalformedURLException;
@@ -71,20 +73,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.4551,-0.9787),13));
 
-        //MapRoute route = new MapRoute();
+        MapRoute route = new MapRoute();
+        double[][] routeCD;
+        try {
+            routeCD = route.getRouteData("ReadingUniversity", "MiltonKeynes");
+        } catch (IOException | JSONException e) {
+            throw new RuntimeException(e);
+        }
 
-        //ArrayList<Double> lineCoordinates = null;
-        //try {
-            //lineCoordinates = route.addRoute("MiltonKeynes", "ReadingUniversity");
-        //} catch (IOException e) {
-        //    throw new RuntimeException(e);
-        //}
 
-        //Polyline pl = googleMap.addPolyline(new PolylineOptions()
-        //        .clickable(true)
-        //        .add(
-        //                new LatLng(51.4551, -0.9787),
-        //                new LatLng(lineCoordinates.get(0), lineCoordinates.get(1))));
+        for(int i = 0; i < 10; i++) {
+            if(routeCD[i] != null) {
+                Polyline pl = googleMap.addPolyline(new PolylineOptions()
+                        .clickable(true)
+                        .add(
+                                new LatLng(routeCD[i*2][0], routeCD[0][1]),
+                                new LatLng(routeCD[(i*2)+1][1], routeCD[1][1])));
+            }
+        }
+
     }
 
 
