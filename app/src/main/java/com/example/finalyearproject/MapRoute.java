@@ -68,15 +68,19 @@ public class MapRoute extends MainActivity{
         JSONObject jsonObject = new JSONObject(routeStr);
         JSONArray routes = jsonObject.getJSONArray("routes");
         String routeCoordinates = null;
-        double[][] latLngArray = new double[200][200];
+        double[][] latLngArray = new double[1000][1000];
+        int count = 0;
+
 
         for (int i = 0; i < routes.length(); i++) {
             JSONObject route = routes.getJSONObject(i);
             JSONArray legs = route.getJSONArray("legs");
 
+
             for (int j = 0; j < legs.length(); j++) {
                 JSONObject leg = legs.getJSONObject(j);
                 JSONArray steps = leg.getJSONArray("steps");
+
 
                 for (int k = 0; k < steps.length(); k++) {
                     JSONObject step = steps.getJSONObject(k);
@@ -84,23 +88,26 @@ public class MapRoute extends MainActivity{
                     JSONObject endCD = step.getJSONObject("end_location");
                     //routeCoordinates = startCD.toString();
 
-                    latLngArray[j*2][0] = startCD.getDouble("lat");
-                    latLngArray[j*2][1] = startCD.getDouble("lng");
-                    latLngArray[(j*2)+1][0] = endCD.getDouble("lat");
-                    latLngArray[(j*2)+1][1] = endCD.getDouble("lng");
+                    latLngArray[count][0] = startCD.getDouble("lat");
+                    latLngArray[count][1] = startCD.getDouble("lng");
+                    System.out.println(count + ": start_location : " + startCD.getDouble("lat") + " , " + startCD.getDouble("lng"));
+                    count++;
+                    latLngArray[count][0] = endCD.getDouble("lat");
+                    latLngArray[count][1] = endCD.getDouble("lng");
+                    System.out.println(count + ": end_location : " + endCD.getDouble("lat") + " , " + endCD.getDouble("lng"));
+                    count++;
 
-                    //routeCoordinates = routeCoordinates + step.getString("start_location") + "," + step.getString("end_location");
-                    ;
-                    // Process the instructions or other step data
 
 
-                    //ArrayList<Double> routeCoordinates = new ArrayList<Double>();
-                    //routeCoordinates.add(51.4403);
-                    //routeCoordinates.add(-0.9421);
-                    //return routeCoordinates;
                 }
             }
         }
+
+        for (int i = 0; i<latLngArray.length; i++) {
+            System.out.println(latLngArray[i][0] + " " + latLngArray[i][1]);
+
+        }
+
         return latLngArray;
     }
 

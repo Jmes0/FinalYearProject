@@ -45,11 +45,11 @@ public class MenuFragment extends Fragment {
                 } catch (IOException | JSONException e) {
                     throw new RuntimeException(e);
                 }
-                String cd = null;
+                String cd = "";
                 //for (int i = 0; i < routeCD.length; i++) {
                 //    cd = cd + routeCD[i][0] + " , ";
                 //    cd = cd + routeCD[i][1] + "\n";
-                //}
+                //}f
 
                 cd  = cd + routeCD[0][0] + " , ";
                 cd  = cd + routeCD[0][1] + " , \n";

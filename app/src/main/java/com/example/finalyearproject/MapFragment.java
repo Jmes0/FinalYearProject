@@ -72,25 +72,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             crimeMarker(googleMap, i);
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.4551,-0.9787),13));
-
         MapRoute route = new MapRoute();
         double[][] routeCD;
         try {
-            routeCD = route.getRouteData("ReadingUniversity", "MiltonKeynes");
+            routeCD = route.getRouteData("ReadingUniversity", "Edinburgh");
         } catch (IOException | JSONException e) {
             throw new RuntimeException(e);
         }
 
 
-        for(int i = 0; i < 10; i++) {
+
+
+        int count = 0;
+        for(int i = 0; i < 100; i++) {
             if(routeCD[i] != null) {
                 Polyline pl = googleMap.addPolyline(new PolylineOptions()
                         .clickable(true)
                         .add(
-                                new LatLng(routeCD[i*2][0], routeCD[0][1]),
-                                new LatLng(routeCD[(i*2)+1][1], routeCD[1][1])));
+                                new LatLng(routeCD[count][0], routeCD[count][1]),
+                                new LatLng(routeCD[count+1][0], routeCD[count+1][1])));
             }
+            count = count + 2;
         }
+
 
     }
 
