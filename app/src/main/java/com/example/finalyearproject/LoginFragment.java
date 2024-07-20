@@ -52,14 +52,15 @@ public class LoginFragment extends Fragment {
         String uName = username.getText().toString();
         String pWord = password.getText().toString();
 
-        ProfileData pData = new ProfileData();
+        //ProfileData pData = new ProfileData();
 
-        if(pData.getPassword(uName).equals(pWord)) {
-            return true;
-        }
-        else {
-            return true;
-        }
+        //if(pData.getPassword(uName).equals(pWord)) {
+        //    return true;
+        //}
+        //else {
+        //    return true;
+        //}
+        return true;
     }
 
 

@@ -38,37 +38,19 @@ public class MenuFragment extends Fragment {
         MapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MapRoute route = new MapRoute();
-                double[][] routeCD;
-                try {
-                    routeCD = route.getRouteData("ReadingUniversity", "MiltonKeynes");
-                } catch (IOException | JSONException e) {
-                    throw new RuntimeException(e);
-                }
-                String cd = "";
-                //for (int i = 0; i < routeCD.length; i++) {
-                //    cd = cd + routeCD[i][0] + " , ";
-                //    cd = cd + routeCD[i][1] + "\n";
-                //}f
-
-                cd  = cd + routeCD[0][0] + " , ";
-                cd  = cd + routeCD[0][1] + " , \n";
-                cd  = cd + routeCD[1][0] + " , ";
-                cd  = cd + routeCD[1][1] + " , \n";
-                cd  = cd + routeCD[2][0] + " , ";
-                cd  = cd + routeCD[2][1] + " , \n";
-                cd  = cd + routeCD[3][0] + " , ";
-                cd  = cd + routeCD[3][1] + " , \n";
-                cd  = cd + routeCD[4][0] + " , ";
-                cd  = cd + routeCD[4][1] + " , \n";
-                cd  = cd + routeCD[5][0] + " , ";
-                cd  = cd + routeCD[5][1] + " , \n";
-                    rte.setText(cd);
-
                 // Handle button click
-                //Bundle ReturnToMap = new Bundle();
-                //ReturnToMap.putBoolean("Return", true);
-                //getParentFragmentManager().setFragmentResult("MapReturn", ReturnToMap);
+                Bundle ReturnToMap = new Bundle();
+                ReturnToMap.putBoolean("Return", true);
+                getParentFragmentManager().setFragmentResult("MapReturn", ReturnToMap);
+            }
+        });
+
+        LogoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle ReturnToLogin = new Bundle();
+                ReturnToLogin.putBoolean("Return", true);
+                getParentFragmentManager().setFragmentResult("LoginReturn", ReturnToLogin);
             }
         });
 

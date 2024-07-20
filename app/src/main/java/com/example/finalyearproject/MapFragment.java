@@ -1,7 +1,7 @@
 package com.example.finalyearproject;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
+import static android.text.TextUtils.substring;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +10,6 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,13 +20,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
+
 
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -72,30 +71,37 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             crimeMarker(googleMap, i);
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.4551,-0.9787),13));
-        MapRoute route = new MapRoute();
-        double[][] routeCD;
+        MapRoute route = null;
         try {
-            routeCD = route.getRouteData("ReadingUniversity", "Edinburgh");
-        } catch (IOException | JSONException e) {
+            route = new MapRoute("ReadingUniversity", "Edinburgh");
+        } catch (JSONException | IOException e) {
             throw new RuntimeException(e);
         }
+        double[][] routeLatLng;
+        String[] routePoly;
 
+        routeLatLng = route.returnLatLng();
+        routePoly = route.returnPolyline();
 
+        for(int i = 0; i < 5; i++) {
+            List<LatLng> subpoly = PolyUtil.decode(routePoly[i]);
+            for(int j = 0; j < subpoly.size()-1; j++) {
+                LatLng startpoly = subpoly.get(j);
+                LatLng endpoly = subpoly.get(j+1);
+                Polyline line = googleMap.addPolyline(new PolylineOptions()
+                        .add(new LatLng(startpoly.latitude, startpoly.longitude),
+                                new LatLng(endpoly.latitude, endpoly.longitude)));
 
-
-        int count = 0;
-        for(int i = 0; i < 100; i++) {
-            if(routeCD[i] != null) {
-                Polyline pl = googleMap.addPolyline(new PolylineOptions()
-                        .clickable(true)
-                        .add(
-                                new LatLng(routeCD[count][0], routeCD[count][1]),
-                                new LatLng(routeCD[count+1][0], routeCD[count+1][1])));
             }
-            count = count + 2;
+
         }
 
-
+        String poe = "epmtIvbmR_@l@MPm@z@";
+        List<LatLng> fewsf = PolyUtil.decode(poe);
+        for(int i = 0; i < fewsf.size(); i++) {
+            LatLng subpoly = fewsf.get(i);
+            System.out.println(subpoly.latitude + "," + subpoly.longitude);
+        }
     }
 
 

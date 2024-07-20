@@ -52,7 +52,7 @@ dependencies {
     implementation(files("libs/osmbonuspack_6.9.0.aar"))
     implementation ("com.google.android.gms:play-services-maps:19.0.0")
     implementation ("com.google.android.gms:play-services-location:21.3.0")
-
+    implementation ("com.google.maps.android:android-maps-utils:3.8.0")
 }
 
 
