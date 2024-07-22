@@ -66,42 +66,44 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
-        CrimeData data = new CrimeData();
-        for (int i = 1; i < 10; i++) {
-            crimeMarker(googleMap, i);
-        }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.4551,-0.9787),13));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.8177,-0.8192),9));
         MapRoute route = null;
+
         try {
-            route = new MapRoute("ReadingUniversity", "Edinburgh");
+            route = new MapRoute("ReadingUniversity", "MiltonKeynes");
         } catch (JSONException | IOException e) {
             throw new RuntimeException(e);
         }
-        double[][] routeLatLng;
-        String[] routePoly;
 
-        routeLatLng = route.returnLatLng();
+        String[] routePoly;
         routePoly = route.returnPolyline();
 
-        for(int i = 0; i < 5; i++) {
-            List<LatLng> subpoly = PolyUtil.decode(routePoly[i]);
-            for(int j = 0; j < subpoly.size()-1; j++) {
-                LatLng startpoly = subpoly.get(j);
-                LatLng endpoly = subpoly.get(j+1);
-                Polyline line = googleMap.addPolyline(new PolylineOptions()
-                        .add(new LatLng(startpoly.latitude, startpoly.longitude),
-                                new LatLng(endpoly.latitude, endpoly.longitude)));
+        int subcount = 0;
+        int simpcount = 0;
 
+        for(int i = 0; i < 25; i++) {
+            List<LatLng> simplifiedPoly = PolyUtil.simplify(PolyUtil.decode(routePoly[i]),50);
+            simpcount = simpcount + simplifiedPoly.size();
+            for(int j = 0; j < simplifiedPoly.size()-1; j++) {
+                if (i == 0 && j == 0) {
+                    LatLng markerCoordinates = new LatLng(simplifiedPoly.get(j).latitude, simplifiedPoly.get(j).longitude);
+                    googleMap.addMarker(new MarkerOptions()
+                            .position(markerCoordinates));
+                }
+                else if(i == 24 && j == simplifiedPoly.size()-2) {
+                    LatLng markerCoordinates = new LatLng(simplifiedPoly.get(j+1).latitude, simplifiedPoly.get(j+1).longitude);
+                    googleMap.addMarker(new MarkerOptions()
+                            .position(markerCoordinates));
+                }
+
+                Polyline pl = googleMap.addPolyline(new PolylineOptions()
+                        .add(
+                                new LatLng((simplifiedPoly.get(j)).latitude, (simplifiedPoly.get(j)).longitude),
+                                new LatLng((simplifiedPoly.get(j + 1)).latitude, (simplifiedPoly.get(j + 1)).longitude)));
             }
-
         }
-
-        String poe = "epmtIvbmR_@l@MPm@z@";
-        List<LatLng> fewsf = PolyUtil.decode(poe);
-        for(int i = 0; i < fewsf.size(); i++) {
-            LatLng subpoly = fewsf.get(i);
-            System.out.println(subpoly.latitude + "," + subpoly.longitude);
-        }
+        System.out.println(subcount);
+        System.out.println(simpcount);
     }
 
 

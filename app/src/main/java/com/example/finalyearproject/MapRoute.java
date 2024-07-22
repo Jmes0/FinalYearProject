@@ -1,11 +1,9 @@
 package com.example.finalyearproject;
 
 import android.os.StrictMode;
-import android.util.JsonToken;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,22 +13,37 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MapRoute extends MainActivity{
+public class MapRoute {
 
     private String[] polyArray;
-    private double[][] latLngArray;
+    //private double[][] latLngArray;
 
     public MapRoute(String origin, String destination) throws JSONException, IOException {
         getRouteData(origin, destination);
+    }
+
+    public void createRoute(String origin, String destination) {
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    getRouteData(origin, destination);
+                } catch (IOException | JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+        };
+        Thread routeThread = new Thread(r);
+        routeThread.start();
     }
 
     public void getRouteData(String origin, String destination) throws IOException, JSONException {
@@ -77,9 +90,9 @@ public class MapRoute extends MainActivity{
         JSONObject jsonObject = new JSONObject(routeStr);
         JSONArray routes = jsonObject.getJSONArray("routes");
         String routeCoordinates = null;
-        latLngArray = new double[200][2];
+        //latLngArray = new double[200][2];
         polyArray = new String[100];
-        int countLatLng = 0;
+        //int countLatLng = 0;
         int countPoly = 0;
 
 
@@ -101,35 +114,30 @@ public class MapRoute extends MainActivity{
 
                     //routeCoordinates = startCD.toString();
 
-
-
                     polyArray[countPoly] = polyline.getString("points");
+
                     countPoly++;
 
-                    latLngArray[countLatLng][0] = startCD.getDouble("lat");
-                    latLngArray[countLatLng][1] = startCD.getDouble("lng");
-                    countLatLng++;
-                    latLngArray[countLatLng][0] = endCD.getDouble("lat");
-                    latLngArray[countLatLng][1] = endCD.getDouble("lng");
-                    countLatLng++;
+                    //latLngArray[countLatLng][0] = startCD.getDouble("lat");
+                    //latLngArray[countLatLng][1] = startCD.getDouble("lng");
+                    //countLatLng++;
+                    //latLngArray[countLatLng][0] = endCD.getDouble("lat");
+                    //latLngArray[countLatLng][1] = endCD.getDouble("lng");
+                    //countLatLng++;
                 }
             }
         }
+
     }
 
+
     public String[] returnPolyline() {
-        for(int i = 0; i < 100; i++) {
-            System.out.println(polyArray[i]);
-        }
         return polyArray;
     }
 
-    public double[][] returnLatLng() {
-        for(int i = 0; i < 100; i++) {
-            System.out.println(latLngArray[i][0] + "," + latLngArray[i][1]);
-        }
-        return latLngArray;
-    }
+    //public double[][] returnLatLng() {
+        //return latLngArray;
+    //}
 
 
 }
