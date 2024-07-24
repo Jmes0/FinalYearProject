@@ -39,6 +39,9 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Handle button click
+                //PSLocation location = new GPSLocation(this);
+                //LatLng userLocation = location.returnLocation();
+                //rte.setText(userLocation.latitude + " , " + userLocation.longitude);
                 Bundle ReturnToMap = new Bundle();
                 ReturnToMap.putBoolean("Return", true);
                 getParentFragmentManager().setFragmentResult("MapReturn", ReturnToMap);

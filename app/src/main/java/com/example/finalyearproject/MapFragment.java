@@ -2,34 +2,57 @@ package com.example.finalyearproject;
 
 import static android.text.TextUtils.substring;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.SearchView;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.maps.android.PolyUtil;
 
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
+
+    private GoogleMap map;
+    private List<Marker> markerList = new ArrayList<>();
+    Location currentLocation;
+    FusedLocationProviderClient fusedLocationProviderClient;
+
+    {
+    }
+
+    ;
 
     @Nullable
     @Override
@@ -46,7 +69,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
         Button Menu = view.findViewById(R.id.MenuBtn);
-        Button Marker = view.findViewById(R.id.MarkerBtn);
+        Switch Marker = view.findViewById(R.id.MarkerSwitch);
+        SearchView search = view.findViewById(R.id.Search);
 
         Menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,12 +83,44 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        Marker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    for (int i = 1; i < 20; i++) {
+                        crimeMarker(map, i);
+                    }
+                } else if (!isChecked) {
+                    for (int i = 0; i < 19; i++) {
+                        (markerList.get(i)).remove();
+                    }
+                    markerList.clear();
+                }
+
+
+            }
+        });
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //search(newText);
+                return false;
+            }
+        });
+
         return view;
     }
 
-
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+
+        map = googleMap;
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.8177,-0.8192),9));
         MapRoute route = null;
@@ -125,9 +181,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         String crime = CrimeData.returnCrime(CDdata);
 
         LatLng markerCoordinates = new LatLng(latt, llong);
-        googleMap.addMarker(new MarkerOptions()
+        Marker mkr = googleMap.addMarker(new MarkerOptions()
                 .position(markerCoordinates)
                 .title(crime));
+        markerList.add(mkr);
     }
 
 

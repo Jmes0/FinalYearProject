@@ -14,15 +14,6 @@
         tools:context=".MapFragment" />
 
     <Button
-        android:id="@+id/MarkerBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:insetRight="6dp"
-        android:text="Add Markers"
-        android:translationY="45dp" />
-
-    <Button
         android:id="@+id/MenuBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +23,20 @@
 
     <android.widget.SearchView
         android:id="@+id/Search"
-        android:layout_width="315dp"
+        android:layout_width="292dp"
         android:layout_height="wrap_content" />
+
+    <Switch
+        android:id="@+id/MarkerSwitch"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/MenuBtn"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="307dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:text="Crime"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 </RelativeLayout>

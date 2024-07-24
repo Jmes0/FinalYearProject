@@ -22,7 +22,8 @@ import org.json.JSONObject;
 public class MapRoute {
 
     private String[] polyArray;
-    //private double[][] latLngArray;
+    private String[] altPolyArray;
+    private double[][] latLngArray;
 
     public MapRoute(String origin, String destination) throws JSONException, IOException {
         getRouteData(origin, destination);
@@ -90,9 +91,9 @@ public class MapRoute {
         JSONObject jsonObject = new JSONObject(routeStr);
         JSONArray routes = jsonObject.getJSONArray("routes");
         String routeCoordinates = null;
-        //latLngArray = new double[200][2];
+        latLngArray = new double[200][2];
         polyArray = new String[100];
-        //int countLatLng = 0;
+        int countLatLng = 0;
         int countPoly = 0;
 
 
@@ -118,26 +119,25 @@ public class MapRoute {
 
                     countPoly++;
 
-                    //latLngArray[countLatLng][0] = startCD.getDouble("lat");
-                    //latLngArray[countLatLng][1] = startCD.getDouble("lng");
-                    //countLatLng++;
-                    //latLngArray[countLatLng][0] = endCD.getDouble("lat");
-                    //latLngArray[countLatLng][1] = endCD.getDouble("lng");
-                    //countLatLng++;
+                    latLngArray[countLatLng][0] = startCD.getDouble("lat");
+                    latLngArray[countLatLng][1] = startCD.getDouble("lng");
+                    countLatLng++;
+                    latLngArray[countLatLng][0] = endCD.getDouble("lat");
+                    latLngArray[countLatLng][1] = endCD.getDouble("lng");
+                    countLatLng++;
                 }
             }
         }
 
     }
 
-
     public String[] returnPolyline() {
         return polyArray;
     }
 
-    //public double[][] returnLatLng() {
-        //return latLngArray;
-    //}
+    public String[] returnAlternatePolyline() {return altPolyArray;}
+
+    public double[][] returnLatLng() {return latLngArray;}
 
 
 }

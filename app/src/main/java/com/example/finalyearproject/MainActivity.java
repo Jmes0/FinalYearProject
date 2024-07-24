@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -29,6 +30,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        GPSLocation location = new GPSLocation(this);
+        LatLng userCD = location.returnLocation();
+        System.out.println(userCD.latitude + " , " + userCD.longitude);
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
