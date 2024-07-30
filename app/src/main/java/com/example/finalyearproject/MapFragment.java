@@ -46,13 +46,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap map;
     private List<Marker> markerList = new ArrayList<>();
-    Location currentLocation;
-    FusedLocationProviderClient fusedLocationProviderClient;
+    private String routeStr;
 
-    {
-    }
-
-    ;
 
     @Nullable
     @Override
@@ -104,6 +99,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                addRoutetoMap(map,query);
                 return false;
             }
 
@@ -122,11 +118,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         map = googleMap;
 
+
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.8177,-0.8192),9));
+
+    }
+
+    private void addRoutetoMap(GoogleMap googleMap, String destination) {
+        Double[] loca = new Double[2];
+        SearchLocation loc = new SearchLocation();
+        try {
+            loca = (loc.getSearch(destination));
+            System.out.println(loca[0].toString() + " " + loca[1].toString());
+        } catch (JSONException | IOException e) {
+            throw new RuntimeException(e);
+        }
+
         MapRoute route = null;
 
+
         try {
-            route = new MapRoute("ReadingUniversity", "MiltonKeynes");
+            route = new MapRoute("ReadingUniversity", loca[0], loca[1]);
         } catch (JSONException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -160,6 +171,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
         System.out.println(subcount);
         System.out.println(simpcount);
+
     }
 
 

@@ -25,17 +25,17 @@ public class MapRoute {
     private String[] altPolyArray;
     private double[][] latLngArray;
 
-    public MapRoute(String origin, String destination) throws JSONException, IOException {
-        getRouteData(origin, destination);
+    public MapRoute(String origin, Double destlat, Double destlng) throws JSONException, IOException {
+        getRouteData(origin, destlat,destlng);
     }
 
-    public void createRoute(String origin, String destination) {
+    public void createRoute(String origin, Double destlat, Double destlng) {
 
         Runnable r = new Runnable() {
             @Override
             public void run() {
                 try {
-                    getRouteData(origin, destination);
+                    getRouteData(origin, destlat,destlng);
                 } catch (IOException | JSONException e) {
                     throw new RuntimeException(e);
                 }
@@ -47,7 +47,7 @@ public class MapRoute {
         routeThread.start();
     }
 
-    public void getRouteData(String origin, String destination) throws IOException, JSONException {
+    public void getRouteData(String origin, Double destlat, Double destlng) throws IOException, JSONException {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -56,11 +56,12 @@ public class MapRoute {
         try {
             routeURI = new URI("https://maps.googleapis.com/maps/api/directions/json?origin=" +
                     origin + "&destination=" +
-                    destination + "&key=AIzaSyBYPZuO-vzvE0By_-6iyI9dl3ZNXKPUrGo");
+                    destlat + "," + destlng + "&key=AIzaSyBYPZuO-vzvE0By_-6iyI9dl3ZNXKPUrGo");
         } catch (URISyntaxException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        ;
 
         URL routeURL = null;
         try {
@@ -69,6 +70,8 @@ public class MapRoute {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        System.out.println("Hello2");
 
         HttpURLConnection conn = (HttpURLConnection) routeURL.openConnection();
         conn.setRequestMethod("GET");
@@ -81,6 +84,8 @@ public class MapRoute {
             content.append(System.getProperty("line.separator"));
         }
 
+        System.out.println("Hello3");
+
         in.close();
         conn.disconnect();
 
@@ -90,11 +95,14 @@ public class MapRoute {
 
         JSONObject jsonObject = new JSONObject(routeStr);
         JSONArray routes = jsonObject.getJSONArray("routes");
+        System.out.println(routes);
         String routeCoordinates = null;
         latLngArray = new double[200][2];
         polyArray = new String[100];
         int countLatLng = 0;
         int countPoly = 0;
+
+        System.out.println("Hello4");
 
 
         for (int i = 0; i < routes.length(); i++) {
@@ -116,7 +124,7 @@ public class MapRoute {
                     //routeCoordinates = startCD.toString();
 
                     polyArray[countPoly] = polyline.getString("points");
-
+                    System.out.println(polyline.getString("points"));
                     countPoly++;
 
                     latLngArray[countLatLng][0] = startCD.getDouble("lat");

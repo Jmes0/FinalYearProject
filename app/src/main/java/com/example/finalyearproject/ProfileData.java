@@ -62,4 +62,8 @@ public class ProfileData extends SQLiteOpenHelper {
         return arrayList;
     }
 
+    public void getPassword(String str) {
+
+    }
+
 }

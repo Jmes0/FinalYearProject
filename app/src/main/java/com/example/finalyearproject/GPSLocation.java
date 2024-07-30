@@ -32,10 +32,10 @@ public class GPSLocation extends MainActivity{
     }
     public void checkPermissions() {
         if (ContextCompat.checkSelfPermission(
-                CONTEXT, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                ctx, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
             // You can use the API that requires the permission.
-            performAction(...);
+            //performAction(...);
         } else if (ActivityCompat.shouldShowRequestPermissionRationale(
                 this, Manifest.permission.ACCESS_FINE_LOCATION)) {
             // In an educational UI, explain to the user why your app requires this
@@ -43,12 +43,11 @@ public class GPSLocation extends MainActivity{
             // features are disabled if it's declined. In this UI, include a
             // "cancel" or "no thanks" button that lets the user continue
             // using your app without granting the permission.
-            showInContextUI(...);
+            //showInContextUI(...);
         } else {
             // You can directly ask for the permission.
-            requestPermissions(ctx,
-                    new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
-                    REQUEST_CODE);
+            //requestPermissions(ctx,
+            //        new String[] { Manifest.permission.ACCESS_FINE_LOCATION } );
         }
     }
 
