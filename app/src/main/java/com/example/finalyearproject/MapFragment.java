@@ -188,6 +188,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void addRoutetoMap(GoogleMap googleMap, String origin, String destination) {
+
         Double[] originCD = new Double[2];
         Double[] destinationCD = new Double[2];
         SearchLocation loc = new SearchLocation();

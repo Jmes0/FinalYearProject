@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class ProfileData extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "user_database";
-    private static final String TABLE1 = "table1";
-    private static final String TABLE2 = "table2";
+    private static final String TABLE1 = "userData";
+    private static final String TABLE2 = "loginData";
 
     public ProfileData(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -22,10 +22,10 @@ public class ProfileData extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String table1 = "CREATE TABLE " +  TABLE1 + "(id INTEGER PRIMARY KEY,login TEXT)";
-        String table2 = "CREATE TABLE " +  TABLE2 + "(id INTEGER PRIMARY KEY,userdata TEXT)";
-        db.execSQL(table1);
-        db.execSQL(table2);
+        String userData = "CREATE TABLE " +  TABLE1 + "id" + "origin" + "Destination" + "(id INTEGER PRIMARY KEY,login TEXT)";
+        String loginData = "CREATE TABLE " +  TABLE2 + "id" + "username" + "password" + "(id INTEGER PRIMARY KEY,userdata TEXT)";
+        db.execSQL(userData);
+        db.execSQL(loginData);
 
     }
 
@@ -36,16 +36,25 @@ public class ProfileData extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insert(String product, String qty, String price) {
+    public boolean insertLocation(String origin, String destination) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        ContentValues locationValues = new ContentValues();
+        locationValues.put("id", "origin");
+        sqLiteDatabase .insert(TABLE1, null, locationValues);
+        return true;
+    }
+
+    public boolean checkLogin(String origin, String destination) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues values1 = new ContentValues();
-        values1.put("login", product);
+        values1.put("login", "username");
         sqLiteDatabase .insert(TABLE1, null, values1);
 
         ContentValues values2 = new ContentValues();
-        values2.put("userdata", product);
-        sqLiteDatabase .insert(TABLE2, null, values2);
+        values2.put("userdata", "userdata");
+        sqLiteDatabase .insert(TABLE1, null, values2);
         return true;
     }
 
