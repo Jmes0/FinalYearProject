@@ -42,16 +42,15 @@ public class CrimeData {
 
     }
 
-    public static String returnCity(String data, String city) {
-        String[] lineArray = data.split("\\s*");
-        String cd = "";
-        cd = lineArray[8];
-        String[] cdArray = data.split("\\s+");
-        for(String a : cdArray) {
-            if(a.equals(city)) {
-                return a;
-            }
-        }
-        return null;
+    public static String returnCity(String data) {
+        String[] lineArray = data.split("\\s*,\\s*");
+        String cd = lineArray[8];
+        String[] cdArray = cd.split("\\s+");
+        //for(String a : cdArray) {
+        //    if(a.equals(city)) {
+        //        return a;
+        //    }
+        //}
+        return cdArray[0];
     }
 }

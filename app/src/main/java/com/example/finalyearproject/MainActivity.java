@@ -35,8 +35,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return insets;
         });
 
-        GPSLocation location = new GPSLocation(this);
-        LatLng userCD = location.returnLocation();
+
+
+        //GPSLocation location = new GPSLocation(this);
+        //LatLng userCD = location.returnLocation();
         //System.out.println(userCD.latitude + " , " + userCD.longitude);
 
 

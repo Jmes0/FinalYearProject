@@ -25,17 +25,17 @@ public class MapRoute {
     private String[] altPolyArray;
     private double[][] latLngArray;
 
-    public MapRoute(String origin, Double destlat, Double destlng) throws JSONException, IOException {
-        getRouteData(origin, destlat,destlng);
+    public MapRoute(Double originlat, Double originlng, Double destlat, Double destlng) throws JSONException, IOException {
+        getRouteData(originlat, originlng, destlat,destlng);
     }
 
-    public void createRoute(String origin, Double destlat, Double destlng) {
+    public void createRoute(Double originlat, Double originlng, Double destlat, Double destlng) {
 
         Runnable r = new Runnable() {
             @Override
             public void run() {
                 try {
-                    getRouteData(origin, destlat,destlng);
+                    getRouteData(originlat,originlng,destlat,destlng);
                 } catch (IOException | JSONException e) {
                     throw new RuntimeException(e);
                 }
@@ -47,7 +47,7 @@ public class MapRoute {
         routeThread.start();
     }
 
-    public void getRouteData(String origin, Double destlat, Double destlng) throws IOException, JSONException {
+    public void getRouteData(Double originlat, Double originlng, Double destlat, Double destlng) throws IOException, JSONException {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -55,7 +55,7 @@ public class MapRoute {
         URI routeURI = null;
         try {
             routeURI = new URI("https://maps.googleapis.com/maps/api/directions/json?origin=" +
-                    origin + "&destination=" +
+                    originlat + "," + originlng + "&destination=" +
                     destlat + "," + destlng + "&key=AIzaSyBYPZuO-vzvE0By_-6iyI9dl3ZNXKPUrGo");
         } catch (URISyntaxException e) {
             // TODO Auto-generated catch block

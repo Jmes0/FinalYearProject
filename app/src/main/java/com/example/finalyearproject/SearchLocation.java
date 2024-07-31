@@ -2,6 +2,8 @@ package com.example.finalyearproject;
 
 import android.os.StrictMode;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,16 +26,23 @@ public class SearchLocation {
         String[] locationStr = location.split(" ");
         URI routeURI = null;
 
-        String HttpRequest = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=formatted_address%2Cname%2Cgeometry&input=";
-        for(int i = 0; i < locationStr.length; i++) {
-            if(i != locationStr.length-1) {
-                HttpRequest = HttpRequest + locationStr[i] + "%20";
-            }
-            else{
-                HttpRequest = HttpRequest + locationStr[i];
+        String HttpRequest = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=formatted_address%2Cname%2Cgeometry&input=Google%20";
+
+        if(locationStr.length == 1) {
+            HttpRequest = HttpRequest + locationStr[0];
+        }
+        else {
+            for(int i = 0; i < locationStr.length; i++) {
+                if(i != locationStr.length-1) {
+                    HttpRequest = HttpRequest + locationStr[i] + "%20";
+                }
+                else{
+                    HttpRequest = HttpRequest + locationStr[i];
+                }
             }
         }
-        HttpRequest = HttpRequest + "&inputtype=textquery&key=AIzaSyBYPZuO-vzvE0By_-6iyI9dl3ZNXKPUrGo";
+
+        HttpRequest = HttpRequest + "%20UK&inputtype=textquery&key=AIzaSyBYPZuO-vzvE0By_-6iyI9dl3ZNXKPUrGo";
 
         try {
             routeURI = new URI(HttpRequest);
@@ -81,8 +90,12 @@ public class SearchLocation {
             locationCD[0] = leg.getDouble("lat");
             locationCD[1] = leg.getDouble("lng");
 
+            if(i == 0) {
+                System.out.println(locationCD[0] + " " + locationCD[1]);
+            }
+
         }
+
         return locationCD;
     }
-
 }
